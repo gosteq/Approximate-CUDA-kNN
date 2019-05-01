@@ -876,20 +876,21 @@ void findInitialStateOfAproximatedCosineKNN(int* graphTraversalStartPoint_device
                 float distanceA = distances2_device[idxCheckingIdGlobal2+lp];
                 float distanceB = distances3_device[idxCheckingIdGlobal2+lp];
                 float distance = distanceAB/(sqrt(distanceA)*sqrt(distanceB));
+                distance = (-1.0*distance)+1.0;
                 distances_device[idxCheckingIdGlobal2+lp] = distance;
             }
             __syncthreads();
 
-            for(int lp = numberOfNeighbors+tid ; lp<numbersToCheckInThisPartRealPart ; lp+=blockDim.x){
-                float dist = sqrt(distances_device[idxCheckingIdGlobal2+lp]);
-                distances_device[idxCheckingIdGlobal2+lp] = dist;
-            }
-            __syncthreads();
+            //for(int lp = numberOfNeighbors+tid ; lp<numbersToCheckInThisPartRealPart ; lp+=blockDim.x){
+                //float dist = sqrt(distances_device[idxCheckingIdGlobal2+lp]);
+                //distances_device[idxCheckingIdGlobal2+lp] = dist;
+            //}
+            //__syncthreads();
 
             for(int lp = tid ; lp<numbersToCheckInThisPartRealPart ; lp+=blockDim.x){
                 float dist = distances_device[idxCheckingIdGlobal2+lp];
-                dist = (-1.0*dist)+1.0;
-                distances_device[idxCheckingIdGlobal2+lp] = dist;
+                //dist = (-1.0*dist)+1.0;
+                //distances_device[idxCheckingIdGlobal2+lp] = dist;
                 biggestNumber[tid] = max(biggestNumber[tid], ceil(dist));
                 smalestNumber[tid] = min(smalestNumber[tid], floor(dist));
             }
@@ -1779,20 +1780,21 @@ void propagateCosineKernel(int numberOfEntities, int numberOfNeighbors, float* d
                 float distanceA = distances2_device[idxCheckingIdGlobal2+lp];
                 float distanceB = distances3_device[idxCheckingIdGlobal2+lp];
                 float distance = distanceAB/(sqrt(distanceA)*sqrt(distanceB));
+                distance = (-1.0*distance)+1.0;
                 distances_device[idxCheckingIdGlobal2+lp] = distance;
             }
             __syncthreads();
 
-            for(int lp = numberOfNeighbors+tid ; lp<numbersToCheckInThisPartRealPart ; lp+=blockDim.x){
-                float dist = sqrt(distances_device[idxCheckingIdGlobal2+lp]);
-                distances_device[idxCheckingIdGlobal2+lp] = dist;
-            }
-            __syncthreads();
+            //for(int lp = numberOfNeighbors+tid ; lp<numbersToCheckInThisPartRealPart ; lp+=blockDim.x){
+            //    float dist = sqrt(distances_device[idxCheckingIdGlobal2+lp]);
+            //    distances_device[idxCheckingIdGlobal2+lp] = dist;
+            //}
+            //__syncthreads();
 
             for(int lp = tid ; lp<numbersToCheckInThisPartRealPart ; lp+=blockDim.x){
                 float dist = distances_device[idxCheckingIdGlobal2+lp];
-                dist = (-1.0*dist)+1.0;
-                distances_device[idxCheckingIdGlobal2+lp] = dist;
+                //dist = (-1.0*dist)+1.0;
+                //distances_device[idxCheckingIdGlobal2+lp] = dist;
                 biggestNumber[tid] = max(biggestNumber[tid], ceil(dist));
                 smalestNumber[tid] = min(smalestNumber[tid], floor(dist));
             }
